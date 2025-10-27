@@ -1,0 +1,1 @@
+import{d as o,u as s,q as n,b as r,o as c}from"./index-c50fc4de.js";const _=o({__name:"VerifyEmailPage",setup(m){const e=s().params,t=e.key,a=e.token;return n().verifyEmail(t,a),(p,u)=>(c(),r("div"))}});export{_ as default};
