@@ -1,0 +1,1 @@
+import{a1 as i,S as l,r as a,a2 as f}from"./index-c50fc4de.js";const h=i("currency",()=>{const o=l(),c="currency",r=a([]),t=a(!1);function n(e){r.value=e}function s(e){t.value=e}async function u(){s(!1);try{const e=await f.get(`${c}`);n(e.data.data.currencies)}catch(e){console.error(e),o.handlePost(e.response)}s(!0)}return{loaded:t,currencies:r,fetchAll:u}});export{h as u};
