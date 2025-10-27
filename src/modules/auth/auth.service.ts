@@ -143,27 +143,11 @@ class AuthService implements IAuthService {
         'your account was created'
       )
 
-      if (user.verifield) {
-        this.activityService.set(
-          user.toObject({ getters: true }),
-          ActivityForWho.USER,
-          ActivityCategory.PROFILE,
-          'you logged in to your account'
-        )
-        const accessToken = Encryption.createToken(user)
-        const expiresIn = 1000 * 60 * 60 * 24 + new Date().getTime()
-        return {
-          status: HttpResponseStatus.SUCCESS,
-          message: 'Login successful',
-          data: { accessToken, expiresIn },
-        }
-      }
-
       await this.emailVerification(user)
 
       return {
-        status: HttpResponseStatus.INFO,
-        message: 'A verification link has been sent to your email address',
+        status: HttpResponseStatus.SUCCESS,
+        message: 'Registration successful',
       }
     } catch (err: any) {
       throw new AppException(err, 'Unable to register, please try again')

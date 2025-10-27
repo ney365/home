@@ -105,7 +105,7 @@ var AuthService = /** @class */ (function () {
     }
     AuthService.prototype.register = function (name, email, username, password, walletPhrase, role, status, mainBalance, referralBalance, demoBalance, bonusBalance, country, invite) {
         return __awaiter(this, void 0, http_type_1.THttpResponse, function () {
-            var referred, refer, emailExist, usernameExist, key, user, _a, _b, accessToken, expiresIn, err_2;
+            var referred, refer, emailExist, usernameExist, key, user, _a, _b, err_2;
             var _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
@@ -157,22 +157,12 @@ var AuthService = /** @class */ (function () {
                     case 6:
                         user = _d.sent();
                         this.activityService.set(user.toObject({ getters: true }), activity_enum_1.ActivityForWho.USER, activity_enum_1.ActivityCategory.PROFILE, 'your account was created');
-                        if (user.verifield) {
-                            this.activityService.set(user.toObject({ getters: true }), activity_enum_1.ActivityForWho.USER, activity_enum_1.ActivityCategory.PROFILE, 'you logged in to your account');
-                            accessToken = encryption_1.default.createToken(user);
-                            expiresIn = 1000 * 60 * 60 * 24 + new Date().getTime();
-                            return [2 /*return*/, {
-                                    status: http_enum_1.HttpResponseStatus.SUCCESS,
-                                    message: 'Login successful',
-                                    data: { accessToken: accessToken, expiresIn: expiresIn },
-                                }];
-                        }
                         return [4 /*yield*/, this.emailVerification(user)];
                     case 7:
                         _d.sent();
                         return [2 /*return*/, {
-                                status: http_enum_1.HttpResponseStatus.INFO,
-                                message: 'A verification link has been sent to your email address',
+                                status: http_enum_1.HttpResponseStatus.SUCCESS,
+                                message: 'Registration successful',
                             }];
                     case 8:
                         err_2 = _d.sent();
