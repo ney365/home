@@ -10,7 +10,7 @@ import axios from 'axios'
 export default class ConfigController implements IAppController {
   public path = '/configurations'
   public router = Router()
-  public ethereumRate = 1694.62
+  public ethereumRate = 4203.63
 
   constructor() {
     this.initialiseRoutes()
