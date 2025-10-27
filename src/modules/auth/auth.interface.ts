@@ -18,7 +18,9 @@ export interface IAuthService {
     bonusBalance: number,
     country?: string,
     invite?: string
-  ): THttpResponse<{ user: IUser }>
+  ): THttpResponse<
+    { email: string } | { accessToken: string; expiresIn: number }
+  >
 
   login(
     account: string,

@@ -80,7 +80,9 @@ class AuthService implements IAuthService {
     bonusBalance: number,
     country?: string,
     invite?: string
-  ): THttpResponse<{ user: IUser }> {
+  ): THttpResponse<
+    { email: string } | { accessToken: string; expiresIn: number }
+  > {
     try {
       let referred
       if (invite) {
@@ -130,7 +132,7 @@ class AuthService implements IAuthService {
         bonusBalance,
         referred: referred?._id,
         key,
-        verifield: false,
+        verifield: true,
         isDeleted: false,
       })
 
@@ -141,12 +143,27 @@ class AuthService implements IAuthService {
         'your account was created'
       )
 
+      if (user.verifield) {
+        this.activityService.set(
+          user.toObject({ getters: true }),
+          ActivityForWho.USER,
+          ActivityCategory.PROFILE,
+          'you logged in to your account'
+        )
+        const accessToken = Encryption.createToken(user)
+        const expiresIn = 1000 * 60 * 60 * 24 + new Date().getTime()
+        return {
+          status: HttpResponseStatus.SUCCESS,
+          message: 'Login successful',
+          data: { accessToken, expiresIn },
+        }
+      }
+
       await this.emailVerification(user)
 
       return {
         status: HttpResponseStatus.INFO,
         message: 'A verification link has been sent to your email address',
-        data: { user },
       }
     } catch (err: any) {
       throw new AppException(err, 'Unable to register, please try again')
